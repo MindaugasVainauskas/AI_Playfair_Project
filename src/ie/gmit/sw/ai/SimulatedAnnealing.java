@@ -74,44 +74,50 @@ public class SimulatedAnnealing {
 		// 2% - swap columns - done
 		// 2% - flip all rows - done
 		// 2% flip all columns - done
-		// 2% reverse the whole key		
+		// 2% reverse the whole key - done		
 		
 		int ranIndex = (int)Math.floor(Math.random() * 100);
 		
 		switch (ranIndex) {
 		case 91:
 		case 92:
+			System.out.println("Swap random rows");
 			swapRandomRows();
 			break;
 		case 93:
 		case 94:
+			System.out.println("Swap columns");
 			swapRandomColumns();
 			break;
 		case 95:
 		case 96:
+			System.out.println("Flip all rows");
 			flipRows();
 			break;
 		case 97:
 		case 98:
+			System.out.println("Flip all columns");
 			flipColumns();
 			break;
 		case 99:
 		case 100:
+			System.out.println("Reverse the whole key");
 			reverseEntireKey();
 			break;
 
 		default:
 			//90% of time key will be adjusted by swapping random letter pair in the matrix
+			System.out.println("Swap random letter pair");
 			swapSingleRandomLetters();			
 			break;
 		}
 		
-		flipColumns();
+		System.out.println("Resultant matrix");
+		printMatrix();
 	}
 
 	//swap around random rows in the matrix
 	private void swapRandomRows() {
-		System.out.println("Swap random rows");
 		int r1, r2;
 		
 		do {
@@ -120,18 +126,14 @@ public class SimulatedAnnealing {
 		}while(r1 == r2);
 		
 		System.out.println(r1+" "+r2);
-		//swap rows of the ciphermatrix around
+		//swap rows of the cipherMatrix around
 		char[] temp = cipherMatrix[r1];
 		cipherMatrix[r1] = cipherMatrix[r2];
 		cipherMatrix[r2] = temp;
-		printMatrix();
-		
 	}
 	
 	//swap around random columns in the matrix
-	private void swapRandomColumns() {
-		System.out.println("Swap columns");
-		
+	private void swapRandomColumns() {		
 		int c1, c2;
 		
 		do {
@@ -148,12 +150,9 @@ public class SimulatedAnnealing {
 			cipherMatrix[i][c1] = cipherMatrix[i][c2];
 			cipherMatrix[i][c2] = temp;
 		}		
-		printMatrix();
 	}
 
-	private void flipRows() {
-		System.out.println("Flip all rows");
-		
+	private void flipRows() {		
 		//run the for loop for all 5 rows in matrix
 		for (int i = 0; i < 5; i++) {
 			char[] temp = cipherMatrix[i];
@@ -168,13 +167,10 @@ public class SimulatedAnnealing {
 			//assign reversed row value back into matrix
 			cipherMatrix[i] = temp;			
 		}
-		printMatrix();
-		
 	}
 
 	//reverse all the columns in the matrix
 	private void flipColumns() {
-		System.out.println("Flip all columns");
 		//outer for for columns
 		for (int i = 0; i < 5/2; i++) {
 			//inner for loop for rows
@@ -185,19 +181,16 @@ public class SimulatedAnnealing {
 				cipherMatrix[5 - i - 1][j] = temp;
 			}
 		}
-		
-		printMatrix();
-		
 	}
 	
 	private void reverseEntireKey() {
-		System.out.println("Reverse the whole key");
-		
+		//for entire key reversal I am simply calling row and column reversal one after another once.
+		flipColumns();
+		flipRows();		
 	}
 
 	//method to swap around randomly selected characters
 	private void swapSingleRandomLetters() {
-		System.out.println("Swap random letter pair");
 		int r1, c1, r2, c2;
 		//pick coordinates on the matrix for character swapping as long as they're not same.
 		do{
@@ -214,9 +207,6 @@ public class SimulatedAnnealing {
 		char temp = cipherMatrix[r1][c1];
 		cipherMatrix[r1][c1] = cipherMatrix[r2][c2];
 		cipherMatrix[r2][c2] = temp;
-		
-		printMatrix();
-		
 	}
 
 }
