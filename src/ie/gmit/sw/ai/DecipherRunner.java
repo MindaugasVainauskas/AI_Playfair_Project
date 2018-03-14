@@ -11,13 +11,20 @@ public class DecipherRunner {
 		SimulatedAnnealing sa = new SimulatedAnnealing();
 		String cipherText = null;
 				
+		//parse text file
 		cipherText = frc.parseTextFile();
 
+		//send cipher text to playfair decrypter
 		pfc.setEncryptedMessage(cipherText);
 		
+		//set up initial random key
 		sa.setCipherKey(ALPHABET);
+		//Set up cipher matrix into 5x5 grid
+		sa.shuffleKey();
+		sa.shuffleKey();
+		sa.shuffleKey();
 		
-		System.out.println("Randomized initial key: -> "+sa.getCipherKey());
+		//System.out.println("Randomized initial key: -> "+sa.getCipherKey());
 		
 		//should return deciphered text
 		System.out.println("Deciphered text: "+pfc.DecryptCipherText(pfc.createDigrams(cipherText), pfc.getCipherKey()));
