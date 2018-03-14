@@ -72,7 +72,7 @@ public class SimulatedAnnealing {
 		//90% - swap single letters - done
 		//2% - swap random rows - done
 		// 2% - swap columns - done
-		// 2% - flip all rows
+		// 2% - flip all rows - done
 		// 2% flip all columns
 		// 2% reverse the whole key		
 		
@@ -154,15 +154,18 @@ public class SimulatedAnnealing {
 	private void flipRows() {
 		System.out.println("Flip all rows");
 		
+		//run the for loop for all 5 rows in matrix
 		for (int i = 0; i < 5; i++) {
 			char[] temp = cipherMatrix[i];
 			
+			//reverse temporary 1d array
 			for(int j = 0; j < temp.length / 2; j++) {
 			    char temp2 = temp[j];
 			    temp[j] = temp[temp.length - j - 1];
 			    temp[temp.length - j - 1] = temp2;
 			}
 			
+			//assign reversed row value back into matrix
 			cipherMatrix[i] = temp;			
 		}
 		printMatrix();
