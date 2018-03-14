@@ -6,7 +6,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class SimulatedAnnealing {
 	
-	private String cipherKey;
+	private String parentCipherKey;
+	private String childCipherKey;
 	private char[][] cipherMatrix;
 
 	public char[][] getCipherMatrix() {
@@ -27,18 +28,26 @@ public class SimulatedAnnealing {
 	}
 
 	public String getCipherKey() {
-		return cipherKey;
+		return parentCipherKey;
 	}
 
 	//set up randomized initial key
 	public void setCipherKey(String alpha) {
 		char[] temp = shuffle(alpha.toCharArray());
-		this.cipherKey = String.valueOf(temp);
-		this.setCipherMatrix(this.cipherKey);
+		this.parentCipherKey = String.valueOf(temp);
+		this.setCipherMatrix(this.parentCipherKey);
 		
-		System.out.println("Initial Cipher matrix key");
+		System.out.println("Initial Cipher key matrix");
 		printMatrix();
 		
+	}
+
+	public String getChildCipherKey() {
+		return childCipherKey;
+	}
+
+	public void setChildCipherKey(String childCipherKey) {
+		this.childCipherKey = childCipherKey;
 	}
 
 	//print out the current cipher matrix to console for feedback and testing
@@ -49,6 +58,17 @@ public class SimulatedAnnealing {
 			}
 			System.out.println();
 		}
+	}
+	
+	public String getIntermediateKey() {
+		String s = "";
+		
+		for (int i = 0; i < 5; i++) {
+			for (int j = 0; j < 5; j++) {
+				s+= cipherMatrix[i][j];
+			}
+		}
+		return s;
 	}
 		
 	//shuffle the character array of initial alphabet sequence
@@ -114,6 +134,7 @@ public class SimulatedAnnealing {
 		
 		System.out.println("Resultant matrix");
 		printMatrix();
+		this.setChildCipherKey(this.getIntermediateKey());
 	}
 
 	//swap around random rows in the matrix
@@ -152,6 +173,7 @@ public class SimulatedAnnealing {
 		}		
 	}
 
+	//flip all rows in the matrix around
 	private void flipRows() {		
 		//run the for loop for all 5 rows in matrix
 		for (int i = 0; i < 5; i++) {
@@ -183,6 +205,7 @@ public class SimulatedAnnealing {
 		}
 	}
 	
+	//reverse entire matrix key
 	private void reverseEntireKey() {
 		//for entire key reversal I am simply calling row and column reversal one after another once.
 		flipColumns();

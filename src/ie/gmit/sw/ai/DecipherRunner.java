@@ -21,9 +21,11 @@ public class DecipherRunner {
 		sa.setCipherKey(ALPHABET);
 		//Set up cipher matrix into 5x5 grid
 		sa.shuffleKey();
-		
+		System.out.println("Initial random key -> "+sa.getCipherKey());
+		System.out.println("Child key -> "+sa.getChildCipherKey());
 		//should return deciphered text
 		System.out.println("Deciphered text: "+pfc.DecryptCipherText(pfc.createDigrams(cipherText), pfc.getCipherKey()));
+//		System.out.println("Deciphered text: "+pfc.DecryptCipherText(pfc.createDigrams(cipherText), sa.getChildCipherKey()));
 	}
 
 
