@@ -73,7 +73,7 @@ public class SimulatedAnnealing {
 		//2% - swap random rows - done
 		// 2% - swap columns - done
 		// 2% - flip all rows - done
-		// 2% flip all columns
+		// 2% flip all columns - done
 		// 2% reverse the whole key		
 		
 		int ranIndex = (int)Math.floor(Math.random() * 100);
@@ -106,7 +106,7 @@ public class SimulatedAnnealing {
 			break;
 		}
 		
-		flipRows();
+		flipColumns();
 	}
 
 	//swap around random rows in the matrix
@@ -172,8 +172,21 @@ public class SimulatedAnnealing {
 		
 	}
 
+	//reverse all the columns in the matrix
 	private void flipColumns() {
 		System.out.println("Flip all columns");
+		//outer for for columns
+		for (int i = 0; i < 5/2; i++) {
+			//inner for loop for rows
+			for (int j = 0; j < 5; j++) {
+				char temp = cipherMatrix[i][j];
+				cipherMatrix[i][j] = cipherMatrix[5 - i - 1][j];
+				//assign temp value back into its new spot in array
+				cipherMatrix[5 - i - 1][j] = temp;
+			}
+		}
+		
+		printMatrix();
 		
 	}
 	
