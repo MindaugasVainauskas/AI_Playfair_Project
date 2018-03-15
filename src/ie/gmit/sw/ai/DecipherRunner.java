@@ -8,7 +8,8 @@ public class DecipherRunner {
 		PlayFairCipher pfc = new PlayFairCipher("THEQUICKBROWNFXMPDVLAZYGS");
 		FileReaderClass frc = new FileReaderClass("text2.txt");
 		
-		SimulatedAnnealing sa = new SimulatedAnnealing();
+		KeyShuffler ks = new KeyShuffler();
+		K_Mer_Parser kmp = new K_Mer_Parser();
 		String cipherText = null;
 				
 		//parse text file
@@ -18,14 +19,16 @@ public class DecipherRunner {
 		pfc.setEncryptedMessage(cipherText);
 		
 		//set up initial random key
-		sa.setCipherKey(ALPHABET);
+		//ks.setCipherKey(ALPHABET);
 		//Set up cipher matrix into 5x5 grid
-		sa.shuffleKey();
-		System.out.println("Initial random key -> "+sa.getCipherKey());
-		System.out.println("Child key -> "+sa.getChildCipherKey());
+		//ks.shuffleKey();
+		//System.out.println("Initial random key -> "+ks.getCipherKey());
+		//System.out.println("Child key -> "+ks.getChildCipherKey());
 		//should return deciphered text
-		System.out.println("Deciphered text: "+pfc.DecryptCipherText(pfc.createDigrams(cipherText), pfc.getCipherKey()));
-//		System.out.println("Deciphered text: "+pfc.DecryptCipherText(pfc.createDigrams(cipherText), sa.getChildCipherKey()));
+		//System.out.println("Deciphered text: "+pfc.DecryptCipherText(pfc.createDigrams(cipherText), pfc.getCipherKey()));
+		
+		kmp.map4GramFile("4grams.txt");
+		System.out.println(kmp.getfGramMap());
 	}
 
 

@@ -4,7 +4,7 @@ package ie.gmit.sw.ai;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class SimulatedAnnealing {
+public class KeyShuffler {
 	
 	private String parentCipherKey;
 	private String childCipherKey;
@@ -89,12 +89,12 @@ public class SimulatedAnnealing {
 	//Key shuffle function to change up the key as ciphertext is being processed.
 	public void shuffleKey() {
 		//switch
-		//90% - swap single letters - done
-		//2% - swap random rows - done
-		// 2% - swap columns - done
-		// 2% - flip all rows - done
-		// 2% flip all columns - done
-		// 2% reverse the whole key - done		
+		//90% - swap single letters
+		//2% - swap random rows
+		// 2% - swap columns
+		// 2% - flip all rows
+		// 2% flip all columns
+		// 2% reverse the whole key		
 		
 		int ranIndex = (int)Math.floor(Math.random() * 100);
 		
