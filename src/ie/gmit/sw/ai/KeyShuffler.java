@@ -27,12 +27,12 @@ public class KeyShuffler {
 		this.cipherMatrix = tempMatrix;
 	}
 
-	public String getCipherKey() {
+	public String getParentCipherKey() {
 		return parentCipherKey;
 	}
 
 	//set up randomized initial key
-	public void setCipherKey(String alpha) {
+	public void setParentCipherKey(String alpha) {
 		char[] temp = shuffle(alpha.toCharArray());
 		this.parentCipherKey = String.valueOf(temp);
 		this.setCipherMatrix(this.parentCipherKey);
@@ -87,17 +87,17 @@ public class KeyShuffler {
 	}
 	
 	//Key shuffle function to change up the key as ciphertext is being processed.
-	public void shuffleKey() {
-		//switch
+	public void shuffleKey() {		
+		//random index number used in switch statement
+		int ranIndex = (int)Math.floor(Math.random() * 100);
+		
+		//switch statement with random 1-100 values used to determine what to do when shuffling the key
 		//90% - swap single letters
 		//2% - swap random rows
 		// 2% - swap columns
 		// 2% - flip all rows
 		// 2% flip all columns
-		// 2% reverse the whole key		
-		
-		int ranIndex = (int)Math.floor(Math.random() * 100);
-		
+		// 2% reverse the whole key				
 		switch (ranIndex) {
 		case 91:
 		case 92:

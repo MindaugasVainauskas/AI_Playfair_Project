@@ -1,16 +1,14 @@
 package ie.gmit.sw.ai;
 
-public class PlayFairCipher {
+public class Playfair_Decryptor {
 	
 	private String cipherKey;	
 	
 	//hardcoded for now. will pull from file later 
 	private String encryptedMessage;
 	
-	public PlayFairCipher(String cKeyMatrix) {
-		setCipherKey(cKeyMatrix);
-	}	
-
+	private String decryptedMessage;
+	
 	//set cipher key to be the selected formatted keystring
 	public void setCipherKey(String keyString) {
 		this.cipherKey = keyString;
@@ -28,6 +26,14 @@ public class PlayFairCipher {
 		this.encryptedMessage = encryptedMessage;
 	}
 
+	public String getDecryptedMessage() {
+		return decryptedMessage;
+	}
+
+	public void setDecryptedMessage(String decryptedMessage) {
+		this.decryptedMessage = decryptedMessage;
+	}
+
 	//create character pairs from ciphertext.
 	public String[] createDigrams(String encMessage) {
 		String digrams[] = new String[encMessage.length() /2];
@@ -40,8 +46,8 @@ public class PlayFairCipher {
 		
 		return digrams;
 	}
-	//Decryption method to return plain text
-	public String DecryptCipherText(String[] digrams, String cKey) {
+	//Decryption method to set decrypted message value when done
+	public void DecryptCipherText(String[] digrams, String cKey) {
 		StringBuilder plainText = new StringBuilder();
 		System.out.println(cKey);
 		for (String pair : digrams) {
@@ -67,6 +73,6 @@ public class PlayFairCipher {
             plainText.append(Character.toString(chr1) + Character.toString(chr2));
 		}
 		
-		return plainText.toString();
+		setDecryptedMessage(plainText.toString());
 	}
 }
