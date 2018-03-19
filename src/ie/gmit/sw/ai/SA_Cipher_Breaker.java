@@ -1,5 +1,8 @@
 package ie.gmit.sw.ai;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class SA_Cipher_Breaker {
 	
 	//Alphabet of 25 characters used in cipher breaking process
@@ -20,6 +23,8 @@ public class SA_Cipher_Breaker {
 	private Playfair_Decryptor pfd;
 	private FileReaderClass frc;
 	
+	private Map<String, Integer> kMerMap;
+	
 	public SA_Cipher_Breaker(int temp, int transits, int stSize, String fName) {
 		ks = new KeyShuffler();
 		ks.setParentCipherKey(ALPHABET); //set initial parent cipher key from given alphabet
@@ -35,13 +40,39 @@ public class SA_Cipher_Breaker {
 		this.setParentKey(ks.getParentCipherKey());
 	}
 	
+	//create character g-grams from returned text.
+		public String[] parsetoKMers(String encMessage) {
+			String kmers[] = new String[encMessage.length() /4];
+			int i = 0;
+			kMerMap = new HashMap<String, Integer>();
+			
+			for (int j = 0; j < encMessage.length()-1; j = j + 4) {
+				 kmers[i] = encMessage.substring(j, j + 4);
+		         
+		         if(kMerMap.containsKey(kmers[i])) {
+		        	 kMerMap.put(kmers[i], kMerMap.get(kmers[i])+1);
+		         }else {
+		        	 kMerMap.put(kmers[i], 1);
+		         }
+		         
+		         i++;
+			}
+			
+			return kmers;
+		}
+	
 	public void cipherBreakerSA() {		
 		String[] digrams = pfd.createDigrams(pfd.getEncryptedMessage()); //set up digrams from ciphered text
 		String tKey = ks.getParentCipherKey(); //get temporary key from parent key(child key in for loops)
 		pfd.DecryptCipherText(digrams, tKey); //decrypt text with given key
 		//return deciphered(hopefully) text and split into 4grams(k-mers)
 		//keyFitness = log(K-Mer sum?)
-		System.out.println(pfd.getDecryptedMessage());
+		
+		String[] kMers = parsetoKMers(pfd.getDecryptedMessage());
+		//check calculated map for k-mers
+		for (String key : kMerMap.keySet()) {
+			System.out.println(key + " "+ kMerMap.get(key).intValue());
+		}
 		//simulated annealing nested for loops for temperature and transitions traversal.
 //		for (int i = temperature; i > 0; i-= stepSize) {
 //			for (int j = transitions; j > 0; j-= stepSize) {
