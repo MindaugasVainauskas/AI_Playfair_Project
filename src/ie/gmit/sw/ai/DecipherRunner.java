@@ -16,16 +16,11 @@ public class DecipherRunner {
 		//send cipher text to playfair decryptor
 		//pfc.setEncryptedMessage(cipherText);
 		
-		SA_Cipher_Breaker sacb = new SA_Cipher_Breaker(500, 10000, 1, "text2.txt");
+		SA_Cipher_Breaker sacb = new SA_Cipher_Breaker(10, 5000, 1, "text2.txt");
 		System.out.println("Parent key -> "+sacb.getParentKey());	
 		sacb.cipherBreakerSA();
 		
-		//pfc.DecryptCipherText(pfc.createDigrams(cipherText), pfc.getCipherKey());
-		//should return deciphered text
-		//System.out.println("Deciphered text: "+pfc.getDecryptedMessage());
-		
-		//kmp.map4GramFile("4grams.txt");
-		//System.out.println(kmp.getfGramMap());
+		System.out.println(sacb.getDecryptedText());
 	}
 
 

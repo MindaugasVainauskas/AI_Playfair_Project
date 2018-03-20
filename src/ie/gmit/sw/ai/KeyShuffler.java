@@ -51,7 +51,7 @@ public class KeyShuffler {
 	}
 
 	//print out the current cipher matrix to console for feedback and testing
-	private void printMatrix() {
+	public void printMatrix() {
 		for (int i = 0; i < 5; i++) {
 			for (int j = 0; j < 5; j++) {
 				System.out.print(this.cipherMatrix[i][j]+" ");
@@ -87,10 +87,10 @@ public class KeyShuffler {
 	}
 	
 	//Key shuffle function to change up the key as ciphertext is being processed.
-	public void shuffleKey() {		
+	public String shuffleKey(String parKey) {		
 		//random index number used in switch statement
 		int ranIndex = (int)Math.floor(Math.random() * 100);
-		
+		this.setCipherMatrix(parKey);
 		//switch statement with random 1-100 values used to determine what to do when shuffling the key
 		//90% - swap single letters
 		//2% - swap random rows
@@ -101,40 +101,34 @@ public class KeyShuffler {
 		switch (ranIndex) {
 		case 91:
 		case 92:
-			System.out.println("Swap random rows");
 			swapRandomRows();
 			break;
 		case 93:
 		case 94:
-			System.out.println("Swap columns");
 			swapRandomColumns();
 			break;
 		case 95:
 		case 96:
-			System.out.println("Flip all rows");
 			flipRows();
 			break;
 		case 97:
 		case 98:
-			System.out.println("Flip all columns");
 			flipColumns();
 			break;
 		case 99:
 		case 100:
-			System.out.println("Reverse the whole key");
 			reverseEntireKey();
 			break;
 
 		default:
 			//90% of time key will be adjusted by swapping random letter pair in the matrix
-			System.out.println("Swap random letter pair");
 			swapSingleRandomLetters();			
 			break;
 		}
 		
-		System.out.println("Resultant matrix");
-		printMatrix();
 		this.setChildCipherKey(this.getIntermediateKey());
+		
+		return this.getChildCipherKey();
 	}
 
 	//swap around random rows in the matrix
@@ -145,8 +139,6 @@ public class KeyShuffler {
 			r1 = (int)Math.floor(Math.random()*5);
 			r2 = (int)Math.floor(Math.random()*5);
 		}while(r1 == r2);
-		
-		System.out.println(r1+" "+r2);
 		//swap rows of the cipherMatrix around
 		char[] temp = cipherMatrix[r1];
 		cipherMatrix[r1] = cipherMatrix[r2];
@@ -161,10 +153,6 @@ public class KeyShuffler {
 			c1 = (int)Math.floor(Math.random()*5);
 			c2 = (int)Math.floor(Math.random()*5);
 		}while(c1 == c2);
-		
-		System.out.println(c1+" "+c2);
-		//swap rows of the ciphermatrix around
-		
 		//swap the characters in different columns around
 		for (int i = 0; i < 5; i++) {
 			char temp = cipherMatrix[i][c1];
@@ -223,8 +211,6 @@ public class KeyShuffler {
 			c2 = (int) Math.floor((Math.random()*5));
 			
 		}while ((r1 == r2) && (c1 == c2)); 
-		
-		System.out.println(r1+" "+ c1+" "+r2+" "+c2);
 		
 		//swap the characters in matrix around
 		char temp = cipherMatrix[r1][c1];
