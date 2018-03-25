@@ -24,7 +24,7 @@ public class K_Mer_Parser {
 		FileReader fr;
 		//read 4 gram file from file with given file name.
 		try {
-			fr = new FileReader(fileName);
+			fr = new FileReader("..\\"+fileName); //get the file name from local folder where 4 gram file should be
 			Scanner scanner = new Scanner(fr);
 			BufferedReader bfr = new BufferedReader(fr);
 			String line;

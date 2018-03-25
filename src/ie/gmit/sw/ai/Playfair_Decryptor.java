@@ -49,7 +49,7 @@ public class Playfair_Decryptor {
 	//Decryption method to set decrypted message value when done
 	public void DecryptCipherText(String[] digrams, String cKey) {
 		StringBuilder plainText = new StringBuilder();
-		System.out.println(cKey);
+		//System.out.println(cKey);
 		for (String pair : digrams) {
 			int row1 = (cKey.indexOf(pair.charAt(0)) / 5);
             int col1 = (cKey.indexOf(pair.charAt(0)) % 5);

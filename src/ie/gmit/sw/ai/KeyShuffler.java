@@ -37,8 +37,8 @@ public class KeyShuffler {
 		this.parentCipherKey = String.valueOf(temp);
 		this.setCipherMatrix(this.parentCipherKey);
 		
-		System.out.println("Initial Cipher key matrix");
-		printMatrix();
+		//System.out.println("Initial Cipher key matrix");
+		//printMatrix();
 		
 	}
 

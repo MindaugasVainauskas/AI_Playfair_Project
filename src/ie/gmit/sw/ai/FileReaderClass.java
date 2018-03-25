@@ -42,7 +42,7 @@ public class FileReaderClass {
 			//Close out buffered reader
 			reader.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			System.out.println("No such File Found!");
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

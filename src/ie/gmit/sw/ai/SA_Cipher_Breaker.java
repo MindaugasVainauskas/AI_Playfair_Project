@@ -24,7 +24,8 @@ public class SA_Cipher_Breaker {
 	private FileReaderClass frc;
 	private K_Mer_Parser kmp;	
 	
-	private Map<String, Integer> kMerMap;
+	private String[] kmers;
+	
 	private Map<String, Integer> kMerCompareMap;
 	
 	private String decryptedText;
@@ -49,20 +50,12 @@ public class SA_Cipher_Breaker {
 	
 	//create character g-grams from returned text.
 		public void parsetoKMers(String encMessage) {
-			String kmers[] = new String[encMessage.length()];
-			int i = 0;
-			kMerMap = new HashMap<String, Integer>();
-			
+			kmers = new String[encMessage.length()-4];
+			int i = 0;			
 			//Set up 4-mer shingles for checking later. Will shift them 2 characters at a time with the length of 4.
 			// This approach should hopefully give better accuracy than jumping 4 characters at a time but more speed than 1 character shift approach.
-			for (int j = 0; j < encMessage.length()-2; j = j + 2) {
-				 kmers[i] = encMessage.substring(j, j + 4);
-				 
-		         if(kMerMap.containsKey(kmers[i])) {
-		        	 kMerMap.put(kmers[i], kMerMap.get(kmers[i])+1);
-		         }else {
-		        	 kMerMap.put(kmers[i], 1);
-		         }		         
+			for (int j = 0; j < encMessage.length()-4; j++) {
+				 kmers[i] = encMessage.substring(j, j + 4);         
 		         i++;
 			}
 		}
@@ -76,16 +69,19 @@ public class SA_Cipher_Breaker {
 		parsetoKMers(pfd.getDecryptedMessage()); //parse decrypted text into 4-mers for checking against 4gram hash map
 		//check calculated map for k-mers that exist in original kMer compare map.
 		
-		for (String key : kMerMap.keySet()) {
+		for (String key : kmers) {
 			if (kMerCompareMap.keySet().contains(key)) {
 				//calculate probability value and its log and add it to temp fitness score
-				double probability = Math.log10((kMerCompareMap.get(key).doubleValue() / kmp.getTotal4GramCount()));
+				//System.out.println("Key-> "+key+" : No. of times show up: "+kMerMap.get(key).doubleValue());
+				double probability = (Math.log10(kMerCompareMap.get(key).doubleValue()) / Math.log10(kmp.getTotal4GramCount()));
 				tempScore += probability;
 			}			
+			//System.out.println("Generated k-mer: "+key);
 		}		
-		setKeyFitness(tempScore);
+		System.out.println("Generated 4-gram array length: "+kmers.length);
+		this.setKeyFitness(tempScore);
 		System.out.println("Total number in 4-gram text file: "+kmp.getTotal4GramCount());
-		System.out.println("4-Gram score: -> "+ tempScore);
+		System.out.println("Initial Parent key score: -> "+ tempScore);
 		
 		//simulated annealing nested for loops for temperature and transitions traversal.
 		for (int i = temperature; i > 0; i-= stepSize) {
@@ -95,25 +91,29 @@ public class SA_Cipher_Breaker {
 				double deltaFitness;
 				pfd.DecryptCipherText(digrams, childKey); //decrypt text with given key		
 				parsetoKMers(pfd.getDecryptedMessage()); //parse decrypted text into 4-mers for checking against 4gram hash map
-				//check calculated map for k-mers that exist in original kMer compare map.
 				
-				for (String key : kMerMap.keySet()) {
+				//Check for the kmers that exist as keys in the 4-gram hashmap
+				for (String key : kmers) {
 					if (kMerCompareMap.keySet().contains(key)) {
 						//calculate probability value and its log and add it to temp fitness score
-						double probability = Math.log10((kMerCompareMap.get(key).doubleValue() / kmp.getTotal4GramCount()));
+						double probability = (Math.log10(kMerCompareMap.get(key).doubleValue()) / Math.log10(kmp.getTotal4GramCount()));
 						childFitness += probability;
 					}			
 				}		
+				//System.out.println(getKeyFitness());
+				//System.out.println(childFitness);
 				
-				deltaFitness = childFitness - getKeyFitness();
+				deltaFitness = childFitness - this.getKeyFitness();
 				//System.out.println(deltaFitness);
 				if(deltaFitness > 0) {
 					this.setParentKey(childKey);
+					this.setKeyFitness(childFitness);
 				}else if(deltaFitness < 0){
 					double p = Math.pow(Math.E,(deltaFitness/temperature));
-					System.out.println(p);
+					//System.out.println(p);
 					if (p > 0.5) {
 						this.setParentKey(childKey);
+						this.setKeyFitness(childFitness);
 					}
 				}
 			}
@@ -162,12 +162,9 @@ public class SA_Cipher_Breaker {
 		this.keyFitness = keyFitness;
 	}
 
+	//return decrypted text. I am simply delegating it to the playfair decryptor class.
 	public String getDecryptedText() {
 		return pfd.getDecryptedMessage();
-	}
-
-	public void setDecryptedText(String decryptedText) {
-		this.decryptedText = decryptedText;
 	}
 
 }
