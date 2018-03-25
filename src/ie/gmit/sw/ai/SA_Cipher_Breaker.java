@@ -1,6 +1,5 @@
 package ie.gmit.sw.ai;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class SA_Cipher_Breaker {
@@ -15,10 +14,10 @@ public class SA_Cipher_Breaker {
 	//Declare Simulated Annealing specific variables
 	private int temperature;
 	private int transitions;
-	private int stepSize;
-	
+	private int stepSize;	
 	private double keyFitness;
 	
+	//Declare classes used by this class
 	private KeyShuffler ks;
 	private Playfair_Decryptor pfd;
 	private FileReaderClass frc;
@@ -72,15 +71,12 @@ public class SA_Cipher_Breaker {
 		for (String key : kmers) {
 			if (kMerCompareMap.keySet().contains(key)) {
 				//calculate probability value and its log and add it to temp fitness score
-				//System.out.println("Key-> "+key+" : No. of times show up: "+kMerMap.get(key).doubleValue());
 				double probability = (Math.log10(kMerCompareMap.get(key).doubleValue()) / Math.log10(kmp.getTotal4GramCount()));
 				tempScore += probability;
 			}			
-			//System.out.println("Generated k-mer: "+key);
 		}		
 		System.out.println("Generated 4-gram array length: "+kmers.length);
-		this.setKeyFitness(tempScore);
-		System.out.println("Total number in 4-gram text file: "+kmp.getTotal4GramCount());
+		this.setKeyFitness(tempScore);  //Set initial fitness from parent probability score
 		System.out.println("Initial Parent key score: -> "+ tempScore);
 		
 		//simulated annealing nested for loops for temperature and transitions traversal.
@@ -100,17 +96,13 @@ public class SA_Cipher_Breaker {
 						childFitness += probability;
 					}			
 				}		
-				//System.out.println(getKeyFitness());
-				//System.out.println(childFitness);
-				
+				//Calculate delta fitness to see which key is better
 				deltaFitness = childFitness - this.getKeyFitness();
-				//System.out.println(deltaFitness);
 				if(deltaFitness > 0) {
 					this.setParentKey(childKey);
 					this.setKeyFitness(childFitness);
-				}else if(deltaFitness < 0){
+				}else if(deltaFitness < 0){  //Sometimes choose child key even if its worse than parent key to prevent local max situations
 					double p = Math.pow(Math.E,(deltaFitness/temperature));
-					//System.out.println(p);
 					if (p > 0.5) {
 						this.setParentKey(childKey);
 						this.setKeyFitness(childFitness);

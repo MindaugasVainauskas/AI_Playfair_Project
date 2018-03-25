@@ -7,7 +7,7 @@ import java.io.PrintWriter;
 
 public class DecipheredFileWriter {
 	private  PrintWriter out;
-	private String fName = "..\\DecryptedText.txt";
+	private String fName = "..\\DecryptedText.txt";  //File name for the output text
 	
 	//Method to write out deciphered text to file with given name.
 	public void WriteDecipheredTextTofile(String text) {

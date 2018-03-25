@@ -1,5 +1,9 @@
 package ie.gmit.sw.ai;
 
+//This class is the playfair decryptor that runs text against given key and sends it back
+//Based on:
+//https://github.com/anushshrestha/Cryptography/blob/master/Cryptography/src/main/java/com/silentflutes/cryptography/Playfair/Playfair.java
+
 public class Playfair_Decryptor {
 	
 	private String cipherKey;	
@@ -73,6 +77,7 @@ public class Playfair_Decryptor {
             plainText.append(Character.toString(chr1) + Character.toString(chr2));
 		}
 		
+		//Set the decrypted text to be assesed
 		setDecryptedMessage(plainText.toString());
 	}
 }

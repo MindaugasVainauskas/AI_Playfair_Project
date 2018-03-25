@@ -1,5 +1,7 @@
 package ie.gmit.sw.ai;
 
+//This class reads din the available 4grams.txt file from same folder as application
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -58,6 +60,8 @@ public class K_Mer_Parser {
 		
 		
 	}
+	
+	//======================== Getters and setters for variables ==================
 
 	public Map<String, Integer> getfGramMap() {
 		return fGramMap;
