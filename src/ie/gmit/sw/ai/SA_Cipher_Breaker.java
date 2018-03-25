@@ -111,6 +111,8 @@ public class SA_Cipher_Breaker {
 			}
 		}
 		
+		
+		//Print out resultant final matrix of the key when deciphering is done with the runs
 		ks.printMatrix();
 	}
 	
