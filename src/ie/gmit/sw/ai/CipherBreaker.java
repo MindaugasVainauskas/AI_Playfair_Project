@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 import com.sun.glass.ui.Application;
 
-public class DecipherRunner {
+public class CipherBreaker {
 	//Declare file writer class for writing out resultant deciphered text into file
 	private static DecipheredFileWriter dfw;
 	
