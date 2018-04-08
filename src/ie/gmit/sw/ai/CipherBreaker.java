@@ -47,7 +47,7 @@ public class CipherBreaker {
 				//Get initial random parent key and display in console
 				System.out.println("Initial Parent key -> "+sacb.getParentKey());	
 				
-				//Run the decihpering method
+				//Run the deciphering method
 				sacb.cipherBreakerSA();
 
 				//Print out deciphered text to console
